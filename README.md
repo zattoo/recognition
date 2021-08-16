@@ -1,30 +1,16 @@
 # Recognition
 
-GitHub Action to recognize affected area based on changed files. Optionally outputs labels.
+GitHub Action to recognize affected projects.
 
 ## Inputs
 
-### `labels`
+### `projects`
 
-`'true' | 'false'`
+`string[]`
 
-Optional. Defines whether to output labels
+Required. Defines project to recognize
 
-Example: `'{"project": ["account", "app", "cast"]}'`
-
-### `matrix`
-
-`JSON string`
-
-Optional. Matrix schema as JSON string.
-
-Example: `'{"project": ["account", "app", "cast"]}'`
-
-### `source`
-
-`string`
-
-Required. Label metadata filename
+Example: `'["account", "app", "cast"]'`
 
 ### `token`
 
@@ -34,45 +20,27 @@ Required. GitHub token.
 
 ## Output
 
-Matrix in JSON format.
+Projects list as JSON string.
 
-For example, there were changes under `project:app` and `project:account` labels, matrix output will be:
-
-```
-{
-    "project": [
-        "account",
-        "app",
-    ]
-}
-```
+Example: `'["app", "cast"]'`
 
 ## Usage
 
-### Metadata file
-
-The metadata file contains list of labels separated by break-line between which should be assigned to all sub-paths
-
-```yml
-# name: projects/common/.labels
-common
-```
-
-If the changed file was `projects/common/utils/time.js` the action will search for the closest `source` (e.g `.labels`)
-In the current example `projects/common/.labels` is the closest one so all the labels listed in that file will be assigned.
-
-### Workflow
-
-````yaml
+````yml
 name: Recognition
+
 jobs:
-    recognition:
-        name: Recognition
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v2
-          - uses: zattoo/recognition@v2
-            with:
-              token: ${{secrets.TOKEN}}
-              source: '.labels'
+  recognition:
+    name: Recognition
+    runs-on: ubuntu-latest
+    outputs:
+        projects: ${{steps.recognition.outputs.projects}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Recognition
+        id: recognition
+        uses: zattoo/recognition@v1
+        with:
+          projects: '["account", "app", "cast"]'
+          token: ${{github.token}}
 ````

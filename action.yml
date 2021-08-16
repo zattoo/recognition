@@ -1,18 +1,11 @@
 name: 'Recognition'
 description: 'Recognizes affected area based on changed files'
 inputs:
-  matrix:
-    description: 'Entities to be recognized under label source, used as output field in matrix. JSON string.'
+  projects:
+    description: 'Projects to be recognized. JSON string'
     required: false
-  labels:
-    description: 'Defines whether output labels'
-    required: false
-    default: 'false'
   token:
     description: 'GitHub token'
-    required: true
-  source:
-    description: 'Label source filename'
     required: true
 outputs:
   matrix:
