@@ -1,7 +1,7 @@
 {
   "name": "recognition",
   "version": "1.0.0",
-  "description": "GitHub Action to recognize and label modified code areas.",
+  "description": "GitHub Action to recognize affected projects.",
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint .",
