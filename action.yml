@@ -1,13 +1,25 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'Recognition'
+description: 'Recognizes affected area based on changed files'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  matrix:
+    description: 'Entities to be recognized under label source, used as output field in matrix. JSON string.'
+    required: false
+  labels:
+    description: 'Defines whether output labels'
+    required: false
+    default: 'false'
+  token:
+    description: 'GitHub token'
     required: true
-    default: '1000'
+  source:
+    description: 'Label source filename'
+    required: true
 outputs:
-  time: # output will be available to future steps
-    description: 'The message to output'
+  matrix:
+    description: 'Matrix based on label entities in JSON format'
 runs:
   using: 'node12'
   main: 'dist/index.js'
+branding:
+  icon: target
+  color: gray-dark
