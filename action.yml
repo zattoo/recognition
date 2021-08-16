@@ -1,4 +1,4 @@
-name: 'Recognizer'
+name: 'Projects Recognition'
 description: 'Recognizes affected area based on changed files'
 inputs:
   projects:
