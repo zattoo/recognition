@@ -6318,7 +6318,7 @@ const getOutput = (changes, projects) => {
         core.error('Only pull requests events can trigger this action');
     }
 
-    const projects = JSON.parse(core.getInput('projects', {required: true}));
+    const projects = core.getInput('projects', {required: true}).split(' ');
 
     if (!Array.isArray(projects)) {
         core.error('Projects list is not defined');

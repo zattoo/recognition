@@ -6,11 +6,18 @@ GitHub Action to recognize affected projects.
 
 ### `projects`
 
-`string[]`
+`string`
 
 Required. Defines project to recognize
 
-Example: `'["account", "app", "cast"]'`
+Example:
+
+```yml
+projects:
+  account
+  app
+  cast
+```
 
 ### `token`
 
@@ -41,6 +48,9 @@ jobs:
         id: recognition
         uses: zattoo/recognition@v1
         with:
-          projects: '["account", "app", "cast"]'
+          projects:
+            account
+            app
+            cast
           token: ${{github.token}}
 ````

@@ -2,8 +2,8 @@ name: 'Projects Recognition'
 description: 'Recognizes affected area based on changed files'
 inputs:
   projects:
-    description: 'Projects to be recognized. JSON string'
-    required: false
+    description: 'Projects to be recognized as new line separated string'
+    required: true
   token:
     description: 'GitHub token'
     required: true
