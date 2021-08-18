@@ -6318,7 +6318,9 @@ const getOutput = (changes, projects) => {
         core.error('Only pull requests events can trigger this action');
     }
 
-    const projects = JSON.parse(core.getInput('projects', {required: true}));
+    const projects = core.getMultilineInput('projects', {required: true});
+
+    console.log('projects', projects);
 
     if (!Array.isArray(projects)) {
         core.error('Projects list is not defined');
