@@ -3,23 +3,21 @@ const github = require('@actions/github');
 
 /**
  * @param {string[]} changes
- * @param {string[]} projects
+ * @param {Record<string, string[]>} domains
  * @return {string[]}
  */
-const getOutput = (changes, projects) => {
-    if (changes.some((change) => change.includes('projects/common'))) {
-        return projects;
-    }
+const getOutput = (changes, domains) => {
+    let result = [];
 
-    return projects.reduce((result, project) => {
-        if (!changes.some((change) => change.includes(`projects/${project}`))) {
-            return result;
+    Object.entries(domains).forEach(([subject, paths]) => {
+        const affected = changes.some((change) => paths.some((path) => change.includes(path)));
+
+        if (affected) {
+            result.push(subject);
         }
+    });
 
-        result = [...result, project];
-
-        return result;
-    }, []);
+    return [...new Set(result)];
 };
 
 (async () => {
@@ -29,11 +27,8 @@ const getOutput = (changes, projects) => {
         core.error('Only pull requests events can trigger this action');
     }
 
-    const projects = core.getInput('projects', {required: true}).split(' ');
-
-    if (!Array.isArray(projects)) {
-        core.error('Projects list is not defined');
-    }
+    const domainsString = core.getInput('domains', {required: true});
+    const domains = JSON.parse(domainsString);
 
     const token = core.getInput('token', {required: true});
     const octokit = github.getOctokit(token);
@@ -43,7 +38,7 @@ const getOutput = (changes, projects) => {
         pull_number: pull_request.number,
     }));
 
-    const output = getOutput(response.map(({filename}) => filename), projects);
+    const output = getOutput(response.map(({filename}) => filename), domains);
 
     console.log('output', JSON.stringify(output));
 
