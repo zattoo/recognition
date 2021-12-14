@@ -9,9 +9,7 @@ const github = require('@actions/github');
 const getOutput = (changes, domains) => {
     let result = [];
 
-    const entries = Object.entries(domains);
-
-    entries.forEach(([subject, paths]) => {
+    Object.entries(domains).forEach(([subject, paths]) => {
         const affected = changes.some((change) => paths.some((path) => change.includes(path)));
 
         if (affected) {

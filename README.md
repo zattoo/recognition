@@ -1,6 +1,6 @@
 # Recognition
 
-GitHub Action to recognize impact.
+GitHub Action to recognize subjects impact based on provided paths map.
 
 ## Inputs
 
