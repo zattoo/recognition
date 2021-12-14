@@ -1,22 +1,19 @@
 # Recognition
 
-GitHub Action to recognize affected projects.
+GitHub Action to recognize impact.
 
 ## Inputs
 
-### `projects`
+### `domains`
 
 `string`
 
-Required. Defines project to recognize
+Required. Defines domains map to be recognized. Record of string with desired output where value is paths list.
 
 Example:
 
 ```yml
-projects:
-  account
-  app
-  cast
+domains: '{"app": ["projects/app", "projects/common"]}'
 ```
 
 ### `token`
@@ -44,13 +41,9 @@ jobs:
         projects: ${{steps.recognition.outputs.projects}}
     steps:
       - uses: actions/checkout@v2
-      - name: Recognition
-        id: recognition
+      - id: recognition
         uses: zattoo/recognition@v1
         with:
-          projects:
-            account
-            app
-            cast
+          projects: '{"app": ["projects/app", "projects/common"]}'
           token: ${{github.token}}
 ````

@@ -1,8 +1,8 @@
 name: 'Projects Recognition'
 description: 'Recognizes affected area based on changed files'
 inputs:
-  projects:
-    description: 'Projects to be recognized as new line separated string'
+  domains:
+    description: 'Domains map, where key is subject name and value is paths list'
     required: true
   token:
     description: 'GitHub token'
