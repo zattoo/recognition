@@ -6513,7 +6513,7 @@ const getOutput = (changes, domains) => {
             pull_number: pull_request.number,
         }));
     } else {
-        const response = await octokit.git.getCommit({
+        const response = await octokit.rest.git.getCommit({
             ...github.context.repo,
             commit_sha: github.context.sha,
         });
