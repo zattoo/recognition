@@ -6505,8 +6505,6 @@ const getOutput = (changes, domains) => {
     const token = core.getInput('token', {required: true});
     const octokit = github.getOctokit(token);
 
-    console.log('github.context', github.context);
-
     let files = [];
 
     if (pull_request) {
@@ -6519,6 +6517,8 @@ const getOutput = (changes, domains) => {
             ...github.context.repo,
             commit_sha: github.context.payload.after,
         });
+
+        console.log('response', response);
 
         files = response.files;
     }
