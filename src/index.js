@@ -27,6 +27,8 @@ const getOutput = (changes, domains) => {
     const token = core.getInput('token', {required: true});
     const octokit = github.getOctokit(token);
 
+    console.log('github.context', github.context);
+
     const response = await octokit.rest.repos.getCommit({
         ...github.context.repo,
         commit_sha: github.context.sha,
