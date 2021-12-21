@@ -44,7 +44,7 @@ const getOutput = (changes, domains) => {
 
         console.log('response', response);
 
-        files = response.files;
+        files = response.data.files;
     }
 
     if (!files) {
