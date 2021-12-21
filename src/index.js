@@ -27,12 +27,14 @@ const getOutput = (changes, domains) => {
     const token = core.getInput('token', {required: true});
     const octokit = github.getOctokit(token);
 
-    const {files} = await octokit.rest.repos.getCommit({
+    const response = await octokit.rest.repos.getCommit({
         ...github.context.repo,
-        ref: github.context.ref,
+        commit_sha: github.context.sha,
     });
 
-    console.log('files', files);
+    console.log('response', response);
+
+    const {files} = response;
 
     // const response = await octokit.paginate(octokit.rest.pulls.listFiles.endpoint.merge({
     //     ...github.context.repo,
