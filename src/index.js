@@ -27,21 +27,21 @@ const getOutput = (changes, domains) => {
     const token = core.getInput('token', {required: true});
     const octokit = github.getOctokit(token);
 
-    const response = await octokit.rest.repos.getCommit({
+    const {files} = await octokit.rest.repos.getCommit({
         ...github.context.repo,
         ref: github.context.ref,
     });
 
-    console.log('response', response);
+    console.log('files', files);
 
     // const response = await octokit.paginate(octokit.rest.pulls.listFiles.endpoint.merge({
     //     ...github.context.repo,
     //     pull_number: pull_request.number,
     // }));
 
-    // const output = getOutput(response.map(({filename}) => filename), domains);
+    const output = getOutput(files.map(({filename}) => filename), domains);
 
-    // console.log('output', JSON.stringify(output));
+    console.log('output', JSON.stringify(output));
 
     core.setOutput('projects', JSON.stringify(['app']));
 })().catch((error) => {
