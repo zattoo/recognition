@@ -6498,6 +6498,7 @@ const getOutput = (changes, domains) => {
 };
 
 (async () => {
+    const {pull_request} = github.context.payload;
     const domainsString = core.getInput('domains', {required: true});
     const domains = JSON.parse(domainsString);
 
@@ -6506,23 +6507,29 @@ const getOutput = (changes, domains) => {
 
     console.log('github.context', github.context);
 
-    // const response = await octokit.rest.repos.getCommit({
-    //     ...github.context.repo,
-    //     commit_sha: github.context.sha,
-    // });
-    //
-    // console.log('response', response);
-    //
-    // const {files} = response;
+    let files = [];
 
-    // const response = await octokit.paginate(octokit.rest.pulls.listFiles.endpoint.merge({
-    //     ...github.context.repo,
-    //     pull_number: pull_request.number,
-    // }));
+    if (pull_request) {
+        files = await octokit.paginate(octokit.rest.pulls.listFiles.endpoint.merge({
+            ...github.context.repo,
+            pull_number: pull_request.number,
+        }));
+    } else {
+        const response = await octokit.rest.repos.getCommit({
+            ...github.context.repo,
+            commit_sha: github.context.payload.after,
+        });
 
-    // const output = getOutput(files.map(({filename}) => filename), domains);
+        console.log('response', response);
 
-    // console.log('output', JSON.stringify(output));
+        files = response.files;
+    }
+
+    console.log('files', files);
+
+    const output = getOutput(files.map(({filename}) => filename), domains);
+
+    console.log('output', JSON.stringify(output));
 
     core.setOutput('projects', JSON.stringify(['app']));
 })().catch((error) => {
