@@ -48,6 +48,7 @@ const getOutput = (changes, domains) => {
 
     if (files.length === 0) {
         core.setOutput('projects', "[]");
+        process.exit(0);
     }
 
     const output = getOutput(files.map(({filename}) => filename), domains);
