@@ -42,21 +42,12 @@ const getOutput = (changes, domains) => {
             head: github.context.payload.after,
         });
 
-        console.log('response', response);
-
         files = response.data.files;
     }
 
-    if (!files) {
-        core.setOutput('projects', "[]");
-        process.exit(0);
-    }
+    const output = files ? getOutput(files.map(({filename}) => filename), domains) : [];
 
-    const output = getOutput(files.map(({filename}) => filename), domains);
-
-    console.log('output', JSON.stringify(output));
-
-    core.setOutput('projects', JSON.stringify(['app']));
+    core.setOutput('projects', JSON.stringify(output));
 })().catch((error) => {
     core.setFailed(error);
     process.exit(1);
