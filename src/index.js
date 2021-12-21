@@ -46,7 +46,7 @@ const getOutput = (changes, domains) => {
         files = response.files;
     }
 
-    if (files.length === 0) {
+    if (!files) {
         core.setOutput('projects', "[]");
         process.exit(0);
     }
