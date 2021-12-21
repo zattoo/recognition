@@ -21,12 +21,6 @@ const getOutput = (changes, domains) => {
 };
 
 (async () => {
-    const {pull_request} = github.context.payload;
-
-    if (!pull_request) {
-        core.error('Only pull requests events can trigger this action');
-    }
-
     const domainsString = core.getInput('domains', {required: true});
     const domains = JSON.parse(domainsString);
 
