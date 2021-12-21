@@ -6486,9 +6486,7 @@ const github = __nccwpck_require__(438);
 const getOutput = (changes, domains) => {
     let result = [];
 
-    const entries = Object.entries(domains);
-
-    entries.forEach(([subject, paths]) => {
+    Object.entries(domains).forEach(([subject, paths]) => {
         const affected = changes.some((change) => paths.some((path) => change.includes(path)));
 
         if (affected) {
@@ -6512,16 +6510,23 @@ const getOutput = (changes, domains) => {
     const token = core.getInput('token', {required: true});
     const octokit = github.getOctokit(token);
 
-    const response = await octokit.paginate(octokit.rest.pulls.listFiles.endpoint.merge({
+    const response = octokit.rest.repos.getCommit({
         ...github.context.repo,
-        pull_number: pull_request.number,
-    }));
+        ref: github.context.ref,
+    });
 
-    const output = getOutput(response.map(({filename}) => filename), domains);
+    console.log('response', response);
 
-    console.log('output', JSON.stringify(output));
+    // const response = await octokit.paginate(octokit.rest.pulls.listFiles.endpoint.merge({
+    //     ...github.context.repo,
+    //     pull_number: pull_request.number,
+    // }));
 
-    core.setOutput('projects', JSON.stringify(output));
+    // const output = getOutput(response.map(({filename}) => filename), domains);
+
+    // console.log('output', JSON.stringify(output));
+
+    core.setOutput('projects', JSON.stringify(['app']));
 })().catch((error) => {
     core.setFailed(error);
     process.exit(1);
