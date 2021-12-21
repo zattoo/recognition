@@ -43,12 +43,12 @@ const getOutput = (changes, domains) => {
             commit_sha: github.context.payload.after,
         });
 
-        console.log('response', response);
-
         files = response.files;
     }
 
-    console.log('files', files);
+    if (files.length === 0) {
+        core.setOutput('projects', "[]");
+    }
 
     const output = getOutput(files.map(({filename}) => filename), domains);
 
