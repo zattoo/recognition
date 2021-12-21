@@ -6513,9 +6513,10 @@ const getOutput = (changes, domains) => {
             pull_number: pull_request.number,
         }));
     } else {
-        const response = await octokit.rest.git.getCommit({
+        const response = await octokit.rest.repos.compareCommits({
             ...github.context.repo,
-            commit_sha: github.context.payload.after,
+            base: github.context.payload.before,
+            head: github.context.payload.after,
         });
 
         console.log('response', response);
