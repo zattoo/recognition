@@ -40,7 +40,7 @@ const getOutput = (changes, domains) => {
     } else {
         const response = await octokit.rest.git.getCommit({
             ...github.context.repo,
-            ref: github.context.ref,
+            sha: github.context.payload.after,
         });
 
         console.log('response', response);
