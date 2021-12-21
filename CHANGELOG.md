@@ -5,7 +5,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
-Support push events
+Added push events support
 
 ## [2.0.0] - 15.12.2021
 
