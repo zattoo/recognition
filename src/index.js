@@ -32,19 +32,28 @@ const getOutput = (changes, domains) => {
 
     let files = [];
 
-    if (pull_request) {
-        files = await octokit.paginate(octokit.rest.pulls.listFiles.endpoint.merge({
-            ...github.context.repo,
-            pull_number: pull_request.number,
-        }));
-    } else {
-        const response = await octokit.rest.repos.compareCommits({
-            ...github.context.repo,
-            base: github.context.payload.before,
-            head: github.context.payload.after,
-        });
+    switch (github.context.eventName) {
+        case 'pull_request': {
+            files = await octokit.paginate(octokit.rest.pulls.listFiles.endpoint.merge({
+                ...github.context.repo,
+                pull_number: pull_request.number,
+            }));
 
-        files = response.data.files;
+            break;
+        }
+        case 'push': {
+            const response = await octokit.rest.repos.compareCommits({
+                ...github.context.repo,
+                base: github.context.payload.before,
+                head: github.context.payload.after,
+            });
+
+            files = response.data.files;
+
+            break;
+        }
+        default:
+            throw new Error(`Unsupported event: ${github.context.eventName}`);
     }
 
     const output = files ? getOutput(files.map(({filename}) => filename), domains) : [];
