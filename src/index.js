@@ -21,26 +21,39 @@ const getOutput = (changes, domains) => {
 };
 
 (async () => {
-    const {pull_request} = github.context.payload;
-
-    if (!pull_request) {
-        core.error('Only pull requests events can trigger this action');
-    }
-
     const domainsString = core.getInput('domains', {required: true});
     const domains = JSON.parse(domainsString);
 
     const token = core.getInput('token', {required: true});
     const octokit = github.getOctokit(token);
 
-    const response = await octokit.paginate(octokit.rest.pulls.listFiles.endpoint.merge({
-        ...github.context.repo,
-        pull_number: pull_request.number,
-    }));
+    let files = [];
 
-    const output = getOutput(response.map(({filename}) => filename), domains);
+    switch (github.context.eventName) {
+        case 'pull_request': {
+            files = await octokit.paginate(octokit.rest.pulls.listFiles.endpoint.merge({
+                ...github.context.repo,
+                pull_number: github.context.payload.number,
+            }));
 
-    console.log('output', JSON.stringify(output));
+            break;
+        }
+        case 'push': {
+            const response = await octokit.rest.repos.compareCommits({
+                ...github.context.repo,
+                base: github.context.payload.before,
+                head: github.context.payload.after,
+            });
+
+            files = response.data.files;
+
+            break;
+        }
+        default:
+            throw new Error(`Unsupported event: ${github.context.eventName}`);
+    }
+
+    const output = files ? getOutput(files.map(({filename}) => filename), domains) : [];
 
     core.setOutput('projects', JSON.stringify(output));
 })().catch((error) => {
