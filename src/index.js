@@ -28,6 +28,8 @@ const getOutput = (changes, domains) => {
     const token = core.getInput('token', {required: true});
     const octokit = github.getOctokit(token);
 
+    console.log('github.context', github.context);
+
     let files = [];
 
     if (pull_request) {
