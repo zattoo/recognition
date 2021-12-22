@@ -21,7 +21,6 @@ const getOutput = (changes, domains) => {
 };
 
 (async () => {
-    const {pull_request} = github.context.payload;
     const domainsString = core.getInput('domains', {required: true});
     const domains = JSON.parse(domainsString);
 
@@ -34,7 +33,7 @@ const getOutput = (changes, domains) => {
         case 'pull_request': {
             files = await octokit.paginate(octokit.rest.pulls.listFiles.endpoint.merge({
                 ...github.context.repo,
-                pull_number: pull_request.number,
+                pull_number: github.context.payload.number,
             }));
 
             break;
