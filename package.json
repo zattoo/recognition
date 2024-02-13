@@ -4,7 +4,7 @@
   "description": "GitHub Action to recognize affected projects.",
   "main": "src/index.js",
   "scripts": {
-    "test": "eslint .",
+    "test": "eslint . && tsc",
     "build": "ncc build src/index.js -o dist --source-map --license licenses.txt",
     "all": "npm test && npm run build"
   },
@@ -28,6 +28,8 @@
     "@vercel/ncc": "0.38.1"
   },
   "devDependencies": {
-    "eslint": "8.56.0"
+    "@types/node": "20.11.17",
+    "eslint": "8.56.0",
+    "typescript": "5.3.3"
   }
 }

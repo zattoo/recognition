@@ -7,6 +7,7 @@ const github = require('@actions/github');
  * @return {string[]}
  */
 const getOutput = (changes, domains) => {
+    /** @type {string[]} */
     let result = [];
 
     Object.entries(domains).forEach(([subject, paths]) => {
@@ -45,6 +46,7 @@ const getOutput = (changes, domains) => {
                 head: github.context.payload.after,
             });
 
+            // @ts-expect-error THe data can be undefined
             files = response.data.files;
 
             break;
