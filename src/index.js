@@ -46,7 +46,7 @@ const getOutput = (changes, domains) => {
                 head: github.context.payload.after,
             });
 
-            // @ts-expect-error THe data can be undefined
+            // @ts-expect-error The data can be undefined
             files = response.data.files;
 
             break;
