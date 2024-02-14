@@ -26,7 +26,7 @@ Required. GitHub token.
 
 Projects list as JSON string.
 
-Example: `'["app", "cast"]'`
+Example: `'["app"]'`
 
 ## Usage
 
@@ -40,10 +40,10 @@ jobs:
     outputs:
         projects: ${{steps.recognition.outputs.projects}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - id: recognition
-        uses: zattoo/recognition@v1
+        uses: zattoo/recognition@v2
         with:
-          projects: '{"app": ["projects/app", "projects/common"]}'
+          domains: '{"app": ["projects/app", "projects/common"]}'
           token: ${{github.token}}
 ````
