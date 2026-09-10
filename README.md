@@ -40,7 +40,7 @@ jobs:
     outputs:
         projects: ${{steps.recognition.outputs.projects}}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - id: recognition
         uses: zattoo/recognition@v2
         with:

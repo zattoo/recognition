@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
 - Update dependencies
-- Upgrade from node '15' to '20'
+- Upgrade from node '15' to '24'
+- Upgrade github actions
 
 ## [2.1.0] - 22.12.2021
 
