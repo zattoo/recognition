@@ -5,6 +5,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [3.0.0] - 10.09.2026
 
+### Infrastructure
 - Update dependencies
 - Upgrade from node '15' to '24'
 - Upgrade github actions
