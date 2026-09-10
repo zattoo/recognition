@@ -11,7 +11,7 @@ outputs:
   matrix:
     description: 'Matrix based on label entities in JSON format'
 runs:
-  using: 'node12'
+  using: 'node24'
   main: 'dist/index.js'
 branding:
   icon: eye
